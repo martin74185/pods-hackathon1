@@ -11,3 +11,26 @@ Encoding: UTF-8
 
 RnwWeave: Sweave
 LaTeX: pdfLaTeX
+
+#Sara's contribution
+  #filtering data sets for large cities & removing double-entries  
+  cities2 <- Mothertongue_Data %>%
+    filter((name == "Toronto" & Total == 5541890) | (name == "Ottawa" & Total == 	872455) | (name == "Vancouver" & Total == 	2292115))
+  
+  #saving the dataset so I can make the dataset longer
+  write_csv(cities2, "cities2.csv")
+  
+  #had to modify cities2 to cities 3 manually to be able to do barplot
+  cities4 <- cities3%>%
+    filter(language !="Total")
+  
+  #plot as percentage barplot
+  ggplot(cities4, aes(fill=language, y=count, x=name)) + 
+    geom_bar(stat="identity", position="fill", colour="black")+
+    labs(title="Languages in Canadian Cities", 
+         subtitle="Native Speakers of Different Languages as a Percentage of the Total Population",
+         caption="Hackathon 2: Koji, Martin, and Sara",
+         x="City",
+         y="Percentage",
+         fill="Languages")+
+        scale_y_continuous(labels =  c("0%", "25%", "50%", "75%", "100%"))
